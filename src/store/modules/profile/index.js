@@ -1,11 +1,14 @@
-import { COMMIT_UPDATE_USERNAME } from "@/common/mutation-types";
+import {
+  COMMIT_UPDATE_USERNAME,
+  COMMIT_SET_STATUS,
+} from "@/common/mutation-types";
 import { getUser } from "@/api";
 
 const module = {
   namespaced: true,
   state() {
     return {
-      username: "Adrian.German",
+      username: "",
     };
   },
   getters: {
@@ -19,10 +22,14 @@ const module = {
     },
   },
   actions: {
-    async updateUsername({ commit, state }, username) {
+    async updateUsername({ commit, state, rootState }, username) {
       console.log("update username action!", state.username, username);
       const user = await getUser(1);
       console.log(user);
+      console.log("status", rootState.status);
+      if (state.username) {
+        commit(COMMIT_SET_STATUS, "active", { root: true });
+      }
       commit(COMMIT_UPDATE_USERNAME, user.username);
     },
   },

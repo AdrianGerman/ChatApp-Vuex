@@ -6,6 +6,11 @@ const store = createStore({
       username: "Adrian.German",
     };
   },
+  getters: {
+    firstName: (state) => (c) => {
+      return state.username.split("").reverse().join(c);
+    },
+  },
 });
 
 export default store;

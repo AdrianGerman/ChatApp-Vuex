@@ -1,14 +1,19 @@
 import {
   COMMIT_UPDATE_USERNAME,
   COMMIT_SET_STATUS,
-} from "@/common/mutation-types";
+} from "@/common/mutation-types.js";
 import { getUser } from "@/api";
-
 const module = {
   namespaced: true,
   state() {
     return {
+      id: 1,
       username: "",
+      details: {
+        id: 1,
+        name: "Diana Nerd",
+        avatar: "/avatars/avatar.jpg",
+      },
     };
   },
   getters: {
@@ -31,9 +36,7 @@ const module = {
         commit(COMMIT_SET_STATUS, "active", { root: true });
         console.log("status", rootState.status);
       }
-      commit(COMMIT_UPDATE_USERNAME, user.username);
     },
   },
 };
-
 export default module;

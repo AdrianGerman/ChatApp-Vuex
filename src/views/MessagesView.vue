@@ -1,7 +1,6 @@
 <script>
 import MessageItem from "@/components/MessageItem.vue";
 import { mapGetters } from "vuex";
-
 export default {
   components: {
     MessageItem,
@@ -19,9 +18,10 @@ export default {
   },
   computed: {
     ...mapGetters("messages", ["getMessages"]),
+    ...mapGetters("contacts", ["getContactById"]),
     messagesView() {
       return this.getMessages(this.channelId)?.map((message) => {
-        const author = this.people.find((p) => p.id === message.author);
+        const author = this.getContactById(message.author);
         if (!author) return message;
         return {
           ...message,
@@ -52,7 +52,6 @@ export default {
   },
 };
 </script>
-
 <template>
   <div class="messages">
     <header>
@@ -83,42 +82,32 @@ export default {
     </footer>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .messages {
   @apply flex flex-col h-full;
-
   header {
     @apply flex justify-between items-center px-6 py-2;
-
     h2 {
       @apply font-bold text-2xl;
     }
-
     .people-list {
       @apply flex gap-1;
-
       .people-item {
         @apply flex justify-center items-center border-4 border-neutral-700 rounded-full;
-
         img {
           @apply w-8 rounded-full;
         }
       }
     }
   }
-
   .content {
     @apply flex flex-col gap-4 p-4 h-full overflow-y-auto;
   }
-
   footer {
     @apply flex p-2;
-
     textarea {
       @apply w-full px-2 py-2 resize-none bg-zinc-800 rounded-tl-md rounded-bl-md focus:outline-none;
     }
-
     button {
       @apply flex justify-center items-center px-4 bg-zinc-800 hover:bg-zinc-700 rounded-tr-md rounded-br-md text-2xl;
     }
